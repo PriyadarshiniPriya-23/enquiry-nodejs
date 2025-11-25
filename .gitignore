@@ -1,0 +1,91 @@
+# -----------------------------
+# Node.js / Express backend
+# -----------------------------
+
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs
+logs
+*.log
+logs/*.log
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Build outputs
+dist/
+build/
+coverage/
+
+# Server runtime
+.tmp/
+.temp/
+cache/
+cache/*
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Sequelize CLI
+.sequelize/*
+.sequelize-temp.js
+migrations/*.tmp
+seeders/*.tmp
+
+# Database artifacts
+*.sqlite
+*.db
+*.db-journal
+pgdata/
+postgres-data/
+
+# PM2 logs
+.pids/
+*.pid
+pm2-log/
+
+# VSCode, JetBrains, Editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Optional if you use Docker
+docker-data/
+docker-compose.override.yml
+
+# Optional if you use testing frameworks
+coverage/
+.nyc_output/
+
+# Optional if you use dotenv files for different envs
+.env.*
+!.env.example      # keep example env for team
+
+# Optional if you use debug artifacts
+debug.log
+/.cache/
+.cache-loader/
+
+# -----------------------------
+# If your React frontend sits inside this repo
+# -----------------------------
+frontend/node_modules/
+frontend/build/
+frontend/.env
+frontend/.DS_Store
