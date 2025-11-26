@@ -17,6 +17,22 @@ if (process.env.DATABASE_URL) {
   sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
     logging: false,
+    // Important for Neon and other managed Postgres instances that require TLS/SSL
+    dialectOptions: {
+      ssl: {
+        require: true,
+        // In many Node environments the server cert chain is fine; if you see certificate
+        // verification errors when connecting to Neon, set rejectUnauthorized: false.
+        // For stricter security in production, supply CA certs and set this to true.
+        rejectUnauthorized: false
+      }
+    },
+    pool: {
+      max: 5,
+      min: 0,
+      acquire: 30000,
+      idle: 10000
+    }
   });
 } else {
   sequelize = new Sequelize(
@@ -28,6 +44,12 @@ if (process.env.DATABASE_URL) {
       port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 5432,
       dialect: 'postgres',
       logging: false,
+      pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
+      }
     }
   );
 }
@@ -107,3 +129,17 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 module.exports = db;
+
+/*
+Optional: quick connection test while developing
+Uncomment to test that the connection works (useful for Neon troubleshoot).
+
+(async () => {
+  try {
+    await sequelize.authenticate();
+    console.log('Database connection authenticated successfully.');
+  } catch (err) {
+    console.error('Unable to authenticate database connection:', err);
+  }
+})();
+*/
