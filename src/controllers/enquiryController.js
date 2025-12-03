@@ -4,7 +4,6 @@ const { createEnquirySchema } = require('../validators/enquiryValidator');
 
 const Enquiry = db.Enquiry;
 const AccessControl = db.AccessControl;
-const EnquiryList = db.EnquiryList;
 
 async function listCreateEnquiries(req, res) {
   try {
@@ -15,14 +14,6 @@ async function listCreateEnquiries(req, res) {
 
       const userId = req.user ? req.user.userId : null;
       const created = await Enquiry.create({ ...value, userId });
-      // create EnquiryList (mimic perform_create)
-      await EnquiryList.create({
-        student_enquiry_id: null,
-        subject_module: created.module || '',
-        training_mode: created.trainingTime || '',
-        training_timing: created.timing || '',
-        start_time: created.startTime || ''
-      });
       return res.status(201).json(created);
     }
 

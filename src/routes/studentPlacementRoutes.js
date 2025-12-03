@@ -1,13 +1,19 @@
+// NOTE: Consolidated to use single Enquiry model via enquiryController
 const express = require('express');
 const router = express.Router();
-const { studentPlacementView, createStudentPlacement } = require('../controllers/studentPlacementController');
+const { listCreateEnquiries, getUpdateDeleteEnquiry } = require('../controllers/enquiryController');
 const { authenticateToken } = require('../middleware/auth');
+const { permitForRoute } = require('../middleware/rolePermission');
 
-router.get('/', authenticateToken, studentPlacementView);
-router.post('/', authenticateToken, studentPlacementView);
-router.put('/', authenticateToken, studentPlacementView);
+router.route('/')
+  .all(authenticateToken)
+  .get(permitForRoute(), listCreateEnquiries)
+  .post(permitForRoute(), listCreateEnquiries);
 
-router.get('/create', authenticateToken, createStudentPlacement);
-router.post('/create', authenticateToken, createStudentPlacement);
+router.route('/:id')
+  .all(authenticateToken)
+  .get(permitForRoute(), getUpdateDeleteEnquiry)
+  .put(permitForRoute(), getUpdateDeleteEnquiry)
+  .delete(permitForRoute(), getUpdateDeleteEnquiry);
 
 module.exports = router;

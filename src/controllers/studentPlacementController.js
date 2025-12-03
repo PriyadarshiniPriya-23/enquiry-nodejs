@@ -2,7 +2,6 @@
 const db = require('../db');
 const StudentPlacement = db.StudentPlacement;
 const Enquiry = db.Enquiry;
-const Experience = db.Experience; // if exists and associated
 
 async function studentPlacementView(req, res) {
   try {
@@ -31,7 +30,7 @@ async function studentPlacementView(req, res) {
       // prevent duplicate submission
       const existing = await StudentPlacement.findOne({ where: { enquiryId: enquiry.id }});
       if (existing) return res.status(400).json({ error: 'Form already submitted!' });
-      const created = await StudentPlacement.create(req.body, { include: [Experience] }); // if experiences nested
+      const created = await StudentPlacement.create(req.body);
       // Mark link_active false if your model has such field
       if (enquiry.link_active !== undefined) {
         enquiry.link_active = false;
